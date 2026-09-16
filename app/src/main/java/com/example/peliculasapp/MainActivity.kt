@@ -13,6 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.peliculasapp.ui.theme.PeliculasAppTheme
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Card
+import coil.compose.AsyncImage
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,20 +38,47 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier
+        modifier = modifier.verticalScroll(rememberScrollState())
     ) {
         Text(
             text = "Películas populares"
         )
-        Text(
-            text = "Película de prueba 1"
-        )
-        Text(
-            text = "Película de prueba 2"
-        )
-        Text(
-            text = "Película de prueba 3"
-        )
+        Card {
+            Column {
+                Text(
+                    text = "Película de prueba 1"
+                )
+                AsyncImage(
+                    model = "https://picsum.photos/200/300",
+                    contentDescription = "Imagen de prueba",
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
+        Card {
+            Column {
+                Text(
+                    text = "Película de prueba 2"
+                )
+                AsyncImage(
+                    model = "https://picsum.photos/200/300",
+                    contentDescription = "Imagen de prueba",
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
+        Card {
+            Column {
+                Text(
+                    text = "Película de prueba 3"
+                )
+                AsyncImage(
+                    model = "https://picsum.photos/200/300",
+                    contentDescription = "Imagen de prueba",
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
     }
 }
 
