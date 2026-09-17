@@ -16,8 +16,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Card
 import coil.compose.AsyncImage
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.peliculasapp.viewmodel.MovieViewModel
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.CardDefaults
+import androidx.compose.ui.text.style.TextOverflow
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,47 +50,53 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(modifier: Modifier = Modifier) {
+fun Greeting(
+    modifier: Modifier = Modifier,
+    viewModel: MovieViewModel = viewModel()
+) {
+    LaunchedEffect(Unit) {
+        viewModel.loadMovies()
+    }
+    val movies = viewModel.movies
     Column(
-        modifier = modifier.verticalScroll(rememberScrollState())
+        modifier = modifier.fillMaxSize()
     ) {
         Text(
-            text = "Películas populares"
+            text = "Películas populares",
+            style = MaterialTheme.typography.headlineSmall,
+            modifier = Modifier.padding(
+                start = 16.dp,
+                top = 16.dp,
+                bottom = 8.dp
+            )
         )
-        Card {
-            Column {
-                Text(
-                    text = "Película de prueba 1"
-                )
-                AsyncImage(
-                    model = "https://picsum.photos/200/300",
-                    contentDescription = "Imagen de prueba",
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-        }
-        Card {
-            Column {
-                Text(
-                    text = "Película de prueba 2"
-                )
-                AsyncImage(
-                    model = "https://picsum.photos/200/300",
-                    contentDescription = "Imagen de prueba",
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-        }
-        Card {
-            Column {
-                Text(
-                    text = "Película de prueba 3"
-                )
-                AsyncImage(
-                    model = "https://picsum.photos/200/300",
-                    contentDescription = "Imagen de prueba",
-                    modifier = Modifier.fillMaxWidth()
-                )
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(movies) { movie ->
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surface
+                    )
+                ) {
+                    Column {
+                        AsyncImage(
+                            model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+                            contentDescription = movie.title,
+                            modifier = Modifier.fillMaxWidth(),
+                            contentScale = ContentScale.Crop
+                        )
+                        Text(
+                            text = movie.title,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
+                }
             }
         }
     }
