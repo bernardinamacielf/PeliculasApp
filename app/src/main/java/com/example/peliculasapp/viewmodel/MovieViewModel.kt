@@ -16,10 +16,10 @@ class MovieViewModel : ViewModel() {
     var movies by mutableStateOf<List<Movie>>(emptyList())
         private set
 
-    var isLoading: Boolean = false
+    var isLoading by mutableStateOf(false)
         private set
 
-    var error: String? = null
+    var error by mutableStateOf<String?>(null)
         private set
 
     fun loadMovies() {
