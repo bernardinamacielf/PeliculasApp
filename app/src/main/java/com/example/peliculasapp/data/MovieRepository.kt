@@ -12,4 +12,11 @@ class MovieRepository {
         )
         return response.results
     }
+
+    suspend fun getMovieDetails(movieId: Int): MovieDetails {
+        return api.getMovieDetails(
+            movieId = movieId,
+            authorization = "Bearer ${BuildConfig.TMDB_TOKEN}"
+        )
+    }
 }
