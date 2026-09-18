@@ -37,6 +37,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.Button
 import com.example.peliculasapp.data.MovieDetails
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.ui.res.stringResource
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,7 +83,7 @@ fun Greeting(
             modifier = modifier.fillMaxSize()
         ) {
             Text(
-                text = "Películas populares",
+                text = stringResource(R.string.popular_movies),
                 style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.padding(
                     start = 16.dp,
@@ -101,7 +105,12 @@ fun Greeting(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = error
+                        text = stringResource(
+                            if (selectedMovieId != null)
+                                R.string.details_error
+                            else
+                                R.string.movies_error
+                        )
                     )
                     Button(
                         onClick = {
@@ -110,7 +119,7 @@ fun Greeting(
                             } ?: viewModel.loadMovies()
                         }
                     ) {
-                        Text("Reintentar")
+                        Text(stringResource(R.string.retry))
                     }
                 }
             } else {
@@ -133,7 +142,9 @@ fun Greeting(
                                 AsyncImage(
                                     model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
                                     contentDescription = movie.title,
-                                    modifier = Modifier.fillMaxWidth(),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .aspectRatio(2f / 3f),
                                     contentScale = ContentScale.Crop
                                 )
                                 Text(
@@ -159,12 +170,13 @@ fun MovieDetailsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
         Button(
             onClick = onBack
         ) {
-            Text("Volver")
+            Text(stringResource(R.string.back))
         }
         Text(
             text = movie.title,
@@ -191,13 +203,19 @@ fun MovieDetailsScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = "Géneros: ${movie.genres.joinToString { it.name }}"
+            text = stringResource(
+                R.string.genres,
+                movie.genres.joinToString { it.name }
+            )
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Puntuación: ${movie.voteAverage}"
+            text = stringResource(
+                R.string.rating,
+                movie.voteAverage
+            )
         )
     }
 }

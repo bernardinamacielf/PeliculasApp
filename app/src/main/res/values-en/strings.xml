@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">PeliculasApp</string>
+
+    <string name="popular_movies">Popular movies</string>
+    <string name="retry">Retry</string>
+    <string name="back">Back</string>
+
+    <string name="movies_error">Could not load the movies</string>
+    <string name="details_error">Could not load the movie details</string>
+
+    <string name="genres">Genres: %1$s</string>
+    <string name="rating">Rating: %1$s</string>
+</resources>

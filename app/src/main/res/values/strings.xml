@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">PeliculasApp</string>
+
+    <string name="popular_movies">Películas populares</string>
+    <string name="retry">Reintentar</string>
+    <string name="back">Volver</string>
+
+    <string name="movies_error">No se pudieron cargar las películas</string>
+    <string name="details_error">No se pudieron cargar los detalles de la película</string>
+
+    <string name="genres">Géneros: %1$s</string>
+    <string name="rating">Puntuación: %1$s</string>
 </resources>
