@@ -23,7 +23,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -40,7 +39,15 @@ import com.example.peliculasapp.data.MovieDetails
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.offset
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.clip
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,11 +91,12 @@ fun Greeting(
         ) {
             Text(
                 text = stringResource(R.string.popular_movies),
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(
                     start = 16.dp,
                     top = 16.dp,
-                    bottom = 8.dp
+                    bottom = 12.dp
                 )
             )
             if (isLoading) {
@@ -134,11 +142,12 @@ fun Greeting(
                             onClick = {
                                 viewModel.loadMovieDetails(movie.id)
                             },
+                            shape = RoundedCornerShape(2.dp),
                             colors = CardDefaults.cardColors(
                                 containerColor = MaterialTheme.colorScheme.surface
                             )
                         ) {
-                            Column {
+                            Column{
                                 AsyncImage(
                                     model = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
                                     contentDescription = movie.title,
@@ -151,6 +160,8 @@ fun Greeting(
                                     text = movie.title,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.SemiBold,
                                     modifier = Modifier.padding(8.dp)
                                 )
                             }
@@ -173,14 +184,27 @@ fun MovieDetailsScreen(
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        Button(
-            onClick = onBack
+        Box(
+            modifier = Modifier
+                .offset(x = (-8).dp, y = (-4).dp)
+                .size(48.dp)
+                .clip(CircleShape)
+                .clickable(onClick = onBack),
+            contentAlignment = Alignment.Center
         ) {
-            Text(stringResource(R.string.back))
+            Text(
+                text = "⟵",
+                fontSize = 42.sp,
+                fontWeight = FontWeight.Light
+            )
         }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
         Text(
             text = movie.title,
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -190,14 +214,17 @@ fun MovieDetailsScreen(
             contentDescription = movie.title,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(400.dp),
+                .aspectRatio(2f / 3f),
             contentScale = ContentScale.Crop
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = movie.overview
+            text = movie.overview,
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontSize = 17.sp
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -206,7 +233,11 @@ fun MovieDetailsScreen(
             text = stringResource(
                 R.string.genres,
                 movie.genres.joinToString { it.name }
-            )
+            ),
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontSize = 17.sp
+            ),
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -215,7 +246,11 @@ fun MovieDetailsScreen(
             text = stringResource(
                 R.string.rating,
                 movie.voteAverage
-            )
+            ),
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontSize = 17.sp
+            ),
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
