@@ -48,6 +48,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextAlign
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,8 +119,13 @@ fun Greeting(
                                 R.string.details_error
                             else
                                 R.string.movies_error
-                        )
+                        ),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.bodyLarge
                     )
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
                     Button(
                         onClick = {
                             selectedMovieId?.let {
@@ -127,7 +133,9 @@ fun Greeting(
                             } ?: viewModel.loadMovies()
                         }
                     ) {
-                        Text(stringResource(R.string.retry))
+                        Text(stringResource(R.string.retry),
+                            style = MaterialTheme.typography.labelLarge
+                        )
                     }
                 }
             } else {
@@ -162,7 +170,12 @@ fun Greeting(
                                     overflow = TextOverflow.Ellipsis,
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.SemiBold,
-                                    modifier = Modifier.padding(8.dp)
+                                    modifier = Modifier.padding(
+                                        start = 8.dp,
+                                        top = 5.dp,
+                                        end = 8.dp,
+                                        bottom = 8.dp
+                                    )
                                 )
                             }
                         }
@@ -193,7 +206,7 @@ fun MovieDetailsScreen(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "⟵",
+                text = "←",
                 fontSize = 42.sp,
                 fontWeight = FontWeight.Light
             )
